@@ -1,0 +1,83 @@
+
+.example-card {
+  max-width: 400px;
+  /* overflow: hidden; */
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
+}
+
+.center_content {
+  text-align: -webkit-center;
+  width: 100vw;
+  height: 100vh;
+  background: -webkit-linear-gradient(
+    to right,
+    #f27121,
+    #e94057,
+    #8a2387
+  );
+  background: linear-gradient(
+    to right,
+    #f27121,
+    #e94057,
+    #8a2387
+  );
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.login_title {
+  justify-content: center;
+}
+
+.btn_pass {
+  border: none;
+}
+
+mat-icon{
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.mat-button {
+  border: none;
+}
+
+.btn-login{
+  color: #3F51B5;
+  width: 100%;
+  border-radius: 20px;
+  border: solid 2px #3F51B5;
+  font-weight: 500;
+}
+
+.btn-login:hover{
+  background-color: #3F51B5;
+  color: white;
+}
+
+.text-content{
+  text-align: right;
+  width: 100%;
+  float: left;
+  color: #626262;
+}
+
+.text-content:hover{
+  color: #3F51B5;
+}
+
+app-header{
+  display: none;
+}
+
+

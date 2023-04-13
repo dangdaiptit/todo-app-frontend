@@ -1,0 +1,65 @@
+<div class="center_content">
+  <mat-card class="example-card">
+    <mat-card-header class="login_title">
+      <mat-card-title>My Todos</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab label="Login">
+
+          <mat-form-field class="example-full-width mt-3">
+            <mat-label>Username or Email</mat-label>
+            <input matInput />
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'">
+            <button class="btn_pass" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+          <a href="" class="text-content">Forgot password?</a>
+          <button type="button" class="btn btn-outline-primary btn-login mt-3 mb-3" routerLink="/todos">LOGIN</button>
+        </mat-tab>
+
+        <mat-tab label="Sign up">
+          <mat-form-field class="example-full-width mt-3">
+            <mat-label>Username</mat-label>
+            <input matInput />
+          </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
+              <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                Please enter a valid email address
+              </mat-error>
+              <mat-error *ngIf="emailFormControl.hasError('required')">
+                Email is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'">
+              <button class="btn_pass" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon class="icon-hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput [type]="hidec ? 'password' : 'text'">
+              <button class="btn_pass" mat-icon-button matSuffix (click)="hidec = !hidec" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidec">
+                <mat-icon>{{hidec ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+            <button type="button" class="btn btn-outline-primary btn-login mt-2 mb-5">SIGN UP</button>
+
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>
