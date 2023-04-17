@@ -44,6 +44,7 @@ import { TodoComponent } from './todo/todo.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
+import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
 
 
 
@@ -57,8 +58,10 @@ import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
     HeaderComponent,
     FooterComponent,
     TodoDialogComponent,
+    PageNotFoundComponentComponent,
   ],
   imports: [
+
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,

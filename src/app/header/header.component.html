@@ -1,38 +1,20 @@
-<header>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div>
-      <a class="navbar-brand" href="">MyTodos</a>
-    </div>
+<mat-toolbar color="primary">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span routerLink="/todos" style="cursor: pointer;">My Todo</span>
 
-    <ul class="navbar-nav">
-      <li>
-        <a class="nav-link" routerLink="">Home</a>
-      </li>
-      <li>
-        <a class="nav-link" routerLink="/todos">Todo</a>
-      </li>
-    </ul>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>account_circle</mat-icon>
+      <span>{{ getUsername() }}</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>exit_to_app</mat-icon>
+      <span (click)="authService.onLogout()" routerLink="/login" >Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
 
-    <ul class="navbar-nav justify-content-end navbar-collapse">
-      <li
-        style="
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        "
-      >
-        <mat-icon style="color: white">account_circle</mat-icon>
-      </li>
-      <li>
-        <span class="nav-link">{{ getUsername() }}</span>
-      </li>
-      <li>
-        <a class="nav-link" routerLink="/login" (click)="authService.onLogout()"
-          >Logout</a
-        >
-      </li>
-    </ul>
-  </nav>
-</header>
+
 

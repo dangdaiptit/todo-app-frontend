@@ -7,23 +7,19 @@ table {
   width: 100%;
 }
 
-td,
+/* td,
 th {
   width: 25%;
-}
+} */
 
 .list-todo {
   padding-top: 50px;
-
 }
 
-.mat-button {
-  outline: none;
+.box_mat-button {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  align-items: center;
+  overflow: hidden;
 }
-
-.example-button-row button{
-  margin-right: 8px;
-  outline: none;
-}
-
-

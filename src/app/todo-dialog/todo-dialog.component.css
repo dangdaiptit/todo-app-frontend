@@ -1,9 +1,8 @@
 
 
-.btn-check{
+.btn_check{
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
   align-items: center;
 
 }
