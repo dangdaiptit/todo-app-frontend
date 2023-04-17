@@ -7,15 +7,23 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   width: 25%;
 }
 
-.list-todo{
+.list-todo {
   padding-top: 50px;
-  /* position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
 
 }
+
+.mat-button {
+  outline: none;
+}
+
+.example-button-row button{
+  margin-right: 8px;
+  outline: none;
+}
+
+

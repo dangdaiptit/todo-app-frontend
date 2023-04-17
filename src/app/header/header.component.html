@@ -14,11 +14,23 @@
     </ul>
 
     <ul class="navbar-nav justify-content-end navbar-collapse">
-      <li>
-        <a  class="nav-link" routerLink="/login">Login</a>
+      <li
+        style="
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <mat-icon style="color: white">account_circle</mat-icon>
       </li>
       <li>
-        <a class="nav-link" routerLink="/login">Logout</a>
+        <span class="nav-link">{{ getUsername() }}</span>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="/login" (click)="authService.onLogout()"
+          >Logout</a
+        >
       </li>
     </ul>
   </nav>

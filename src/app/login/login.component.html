@@ -1,4 +1,5 @@
 <div class="center_content">
+  <div *ngIf="errorMessage" class="alert alert-danger slide-in-top">{{ errorMessage }}</div>
   <mat-card class="example-card">
     <mat-card-header class="login_title">
       <mat-card-title>My Todos</mat-card-title>
@@ -6,23 +7,24 @@
 
     <mat-card-content>
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-        <mat-tab label="Login">
+          <mat-tab label="Login">
 
-          <mat-form-field class="example-full-width mt-3">
-            <mat-label>Username or Email</mat-label>
-            <input matInput />
-          </mat-form-field>
+            <mat-form-field class="example-full-width mt-3">
+              <mat-label>Username or Email</mat-label>
+              <input matInput name="username" [(ngModel)] = "username" required/>
+            </mat-form-field>
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'">
-            <button class="btn_pass" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-          </mat-form-field>
-          <a href="" class="text-content">Forgot password?</a>
-          <button type="button" class="btn btn-outline-primary btn-login mt-3 mb-3" routerLink="/todos">LOGIN</button>
-        </mat-tab>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)] = "password" required>
+              <button class="btn_pass" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+            <a href="" class="text-content">Forgot password?</a>
+            <button type="button" class="btn btn-outline-primary btn-login mt-3 mb-3" (click)="handeLogin()">LOGIN</button>
+          </mat-tab>
+
 
         <mat-tab label="Sign up">
           <mat-form-field class="example-full-width mt-3">

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../_services/auth.service';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -7,4 +9,14 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  constructor(public authService: AuthService) {
+
+  }
+
+  getUsername() {
+    return localStorage.getItem('username');
+  }
+
 }
+
+

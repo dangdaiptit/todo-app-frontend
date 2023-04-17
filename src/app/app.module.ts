@@ -6,8 +6,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule} from '@angular/common/http';
 // import libary dificuft
 //Angular Material Components
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatNativeDateModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -40,6 +43,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { TodoComponent } from './todo/todo.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
+
 
 
 
@@ -51,13 +56,17 @@ import { FooterComponent } from './footer/footer.component';
     TodoComponent,
     HeaderComponent,
     FooterComponent,
+    TodoDialogComponent,
   ],
   imports: [
+    HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatCheckboxModule,
+    MatNativeDateModule,
     MatCardModule,
     MatInputModule,
     MatAutocompleteModule,

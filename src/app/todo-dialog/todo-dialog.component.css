@@ -1,0 +1,26 @@
+
+
+.btn-check{
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  align-items: center;
+
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+button{outline: none;}
+
+
+.completed-green {
+  color: green;
+  font-size: 90%;
+}
+
+.uncompleted-red {
+  color: red;
+  font-size: 90%;
+}
