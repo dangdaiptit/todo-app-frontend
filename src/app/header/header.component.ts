@@ -1,7 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
-import { LoginComponent } from '../login/login.component';
-import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-header',

@@ -7,11 +7,6 @@ table {
   width: 100%;
 }
 
-/* td,
-th {
-  width: 25%;
-} */
-
 .list-todo {
   padding-top: 50px;
 }
@@ -19,7 +14,12 @@ th {
 .box_mat-button {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
   align-items: center;
   overflow: hidden;
+}
+
+.box_status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }

@@ -16,11 +16,19 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(AUTH_API + 'login', {
-      username,
-      password
-    }, httpOptions);
+  // login(username: string, password: string): Observable<any> {
+  //   return this.http.post(AUTH_API + 'login', {
+  //     username,
+  //     password
+  //   }, httpOptions);
+  // }
+
+  login(data: any):Observable<any>{
+    return this.http.post(AUTH_API + 'login', data, httpOptions);
+  }
+
+  userSignUp(data : any) {
+    return this.http.post(AUTH_API + 'signup', data);
   }
 
   isUserLoggedIn() {

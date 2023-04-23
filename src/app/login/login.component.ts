@@ -1,8 +1,52 @@
-import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from '../_services/data/user.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+
+
+
+export function ConfirmedValidator(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+    if (matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
+      return;
+    }
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  }
+}
+
+export function usernameExistsValidator(userService: UserService): AsyncValidatorFn {
+  return (control: AbstractControl): Observable<{
+    [key: string]: any
+  } | null> => {
+    const username = control.value;
+    return userService.checkExitUserByUsername(username).pipe(
+      map(exists => exists ? { 'usernameExists': true } : null)
+    );
+  };
+
+}
+
+export function emailExistsValidator(userService: UserService): AsyncValidatorFn {
+  return (control: AbstractControl): Observable<{
+    [key: string]: any
+  } | null> => {
+    const email = control.value;
+    return userService.checkExitUserByEmail(email).pipe(
+      map(exists => exists ? { 'emailExists': true } : null)
+    );
+  };
+
+}
 
 
 @Component({
@@ -12,50 +56,100 @@ import { Router } from '@angular/router';
 })
 
 
-
-export class LoginComponent {
-  hide = true;
-  hidec = true;
-  emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  username: string;
-  password: string;
-  isLoggedIn = false;
-  isLoginFailed = false;
+export class LoginComponent implements OnInit {
+  hide = true; // hide password
+  hidec = true; //hide confirm password
   errorMessage = '';
+  errorSignupMes = '';
+  successSignupMes = '';
+  formSignUp: FormGroup = new FormGroup({});
+  loginForm: FormGroup = new FormGroup({});
 
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private formBuider: FormBuilder,
+    private userService: UserService) {
 
+    this.formSignUp = formBuider.group({
+      username: ['', [Validators.required, Validators.pattern(/^[a-z0-9_-]{3,20}$/)], usernameExistsValidator(userService)],
+      email: ['', [Validators.required, Validators.email], emailExistsValidator(userService)],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,40}$/)]],
+      confirmPassword: ['', [Validators.required]],
+      role: ['user']
+    }, {
+      validator: ConfirmedValidator('password', 'confirmPassword')
+    });
 
-
-
-  constructor(private authService: AuthService, private router: Router) {
+    this.loginForm = formBuider.group({
+      username: ['', [Validators.required]],
+      password: ['', Validators.required]
+    })
 
   }
 
-  handeLogin() {
-    this.authService.login(this.username, this.password).subscribe({
+
+  ngOnInit(): void {
+
+  }
+
+  get signUp() {
+    return this.formSignUp.controls;
+  }
+
+  get login() {
+    return this.loginForm.controls;
+  }
+
+
+
+  loginUser() {
+    this.authService.login(this.loginForm.value).subscribe({
       next: data => {
-        console.log("login success!");
-        console.log(data.id);
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
         this.router.navigate(['/todos']);
       },
 
       error: err => {
-        console.log("login false!");
-        this.isLoginFailed = true;
         this.errorMessage = 'Login unsuccessful! Please check your login information again';
         setTimeout(() => {
           this.errorMessage = '';
         }, 4000);
       }
-    });
+    })
+
+  }
+
+
+  //signUp
+
+  userSignUp() {
+    this.formSignUp.patchValue({ role: ['user'] });
+    this.authService.userSignUp(this.formSignUp.value).subscribe({
+      next: (res) => {
+        this.successSignupMes = 'User registration successful!';
+        setTimeout(() => {
+          this.successSignupMes = '';
+        }, 3000)
+        this.formSignUp.reset();
+      },
+
+      error: (err) => {
+        this.errorSignupMes = 'User registration failed!',
+          setTimeout(() => {
+            this.errorSignupMes = '';
+          }, 3000);
+      }
+    })
+  }
+
+  checkExistUsername() {
+    this.userService.checkExitUserByUsername(this.formSignUp.value.username).subscribe();
+  }
+
+  checkExistEmail() {
+    this.userService.checkExitUserByEmail(this.formSignUp.value.email).subscribe();
   }
 
 }
-
-
-
-
