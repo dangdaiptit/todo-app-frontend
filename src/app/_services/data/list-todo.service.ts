@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 const TODO_API = 'http://localhost:8080/api/todos/';
-const token = localStorage.getItem('token');
-const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
 @Injectable({
   providedIn: 'root'
@@ -18,19 +16,24 @@ export class ListTodoService {
 
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
     return this.http.get<any>(TODO_API, { headers });
   }
 
-  saveTodo(data: any) {
-    return this.http.post<any>(TODO_API, data, { headers });
+  saveTodo(data: any){
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<any>(TODO_API, data, {headers});
   }
 
   updateTodo(data: any, id: number) {
-    return this.http.put<any>(TODO_API + id, data, { headers });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(TODO_API + id, data, {headers});
   }
   deleteTodo(id: number) {
-    return this.http.delete<any>(TODO_API + id, { headers });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<any>(TODO_API + id, {headers});
   }
 
 

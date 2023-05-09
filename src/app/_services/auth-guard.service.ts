@@ -15,11 +15,12 @@ export class AuthGuardService implements CanActivate {
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this.authService.isUserLoggedIn()) {
+    if (this.authService.isUserLoggedIn() && !this.authService.isTokenExpired()) {
       return true;
     }
+    // alert('The session has expired. Please log in again!');
+    localStorage.clear();
     this.router.navigate(['login']);
     return false;
-
   }
 }

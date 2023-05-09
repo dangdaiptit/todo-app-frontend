@@ -2,19 +2,26 @@
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
-  <span routerLink="/todos" style="cursor: pointer;">My Todo</span>
+  <span routerLink="/todos" style="cursor: pointer">My Todo</span>
 
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <button mat-menu-item [matMenuTriggerFor]="submenu">
       <mat-icon>account_circle</mat-icon>
       <span>{{ getUsername() }}</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="authService.onLogout()" routerLink="/login">
       <mat-icon>exit_to_app</mat-icon>
-      <span (click)="authService.onLogout()" routerLink="/login" >Logout</span>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #submenu="matMenu">
+    <button mat-menu-item routerLink="/user/profile-account">
+      User information
+    </button>
+    <button mat-menu-item (click)="openDialog()">Change your e-mail</button>
+    <button mat-menu-item routerLink="/user/change-password">
+      Change the password
     </button>
   </mat-menu>
 </mat-toolbar>
-
-
-

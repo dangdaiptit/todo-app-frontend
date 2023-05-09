@@ -6,15 +6,18 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 // import libary dificuft
 //Angular Material Components
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatNativeDateModule} from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
@@ -45,11 +48,10 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
 import { PageNotFoundComponentComponent } from './page-not-found-component/page-not-found-component.component';
-
-
-
-
-
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ProfileAccountComponent } from './profile-account/profile-account.component';
+import { ChangeEmailUserComponent } from './change-email-user/change-email-user.component';
+import { CodeInputModule } from 'angular-code-input';
 
 @NgModule({
   declarations: [
@@ -60,8 +62,12 @@ import { PageNotFoundComponentComponent } from './page-not-found-component/page-
     FooterComponent,
     TodoDialogComponent,
     PageNotFoundComponentComponent,
+    ChangePasswordComponent,
+    ProfileAccountComponent,
+    ChangeEmailUserComponent,
   ],
   imports: [
+    CodeInputModule,
 
     HttpClientModule,
     ReactiveFormsModule,
@@ -101,12 +107,14 @@ import { PageNotFoundComponentComponent } from './page-not-found-component/page-
     MatPaginatorModule,
     MatButtonModule,
   ],
-  providers: [{
-    provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-    useValue: {
-    subscriptSizing: 'dynamic'
-    }
-  }],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        subscriptSizing: 'dynamic',
+      },
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

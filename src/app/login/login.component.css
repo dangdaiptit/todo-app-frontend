@@ -1,4 +1,3 @@
-
 .example-card {
   max-width: 400px;
   /* overflow: hidden; */
@@ -13,18 +12,8 @@
   text-align: -webkit-center;
   width: 100vw;
   height: 100vh;
-  background: -webkit-linear-gradient(
-    to right,
-    #f27121,
-    #e94057,
-    #8a2387
-  );
-  background: linear-gradient(
-    to right,
-    #f27121,
-    #e94057,
-    #8a2387
-  );
+  background: -webkit-linear-gradient(to right, #f27121, #e94057, #8a2387);
+  background: linear-gradient(to right, #f27121, #e94057, #8a2387);
 }
 
 .example-full-width {
@@ -39,47 +28,44 @@
   border: none;
 }
 
-mat-icon{
+mat-icon {
   font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-
-
 .mat-button {
   border: none;
 }
 
-.btn-login{
-  color: #3F51B5;
+.btn-login {
+  color: #3f51b5;
   width: 100%;
   border-radius: 20px;
-  border: solid 2px #3F51B5;
+  border: solid 2px #3f51b5;
   font-weight: 500;
 }
 
-.btn-login:hover{
-  background-color: #3F51B5;
+.btn-login:hover {
+  background-color: #3f51b5;
   color: white;
 }
 
-.text-content{
+.text-content {
   text-align: right;
   width: 100%;
   float: left;
   color: #626262;
 }
 
-.text-content:hover{
-  color: #3F51B5;
+.text-content:hover {
+  color: #3f51b5;
 }
 
-app-header{
+app-header {
   display: none;
 }
-
 
 .slide-in-top {
   animation: slide-in-right 0.5s ease-out;
@@ -95,7 +81,6 @@ app-header{
     opacity: 1;
   }
 }
-
 
 .notification {
   position: fixed;
@@ -115,7 +100,3 @@ app-header{
     right: 0;
   }
 }
-
-
-
-

@@ -1,0 +1,12 @@
+.box_info {
+  max-width: 600px;
+  margin-top: 80px;
+}
+
+.text_header {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  padding-bottom: 15px;
+}
+

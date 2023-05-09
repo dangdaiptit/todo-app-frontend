@@ -42,10 +42,11 @@ export class TodoDialogComponent implements OnInit {
   addTodo() {
     if (!this.editData) {
       if (this.todoForm.valid) {
-        this.todoService.saveTodo(this.todoForm.getRawValue())
+        this.todoService.saveTodo(this.todoForm.value)
           .subscribe({
             next: (res) => {
               alert("Todo added successfully!");
+              console.log(this.todoForm.value)
               this.todoForm.reset();
               this.dialogRef.close('save');
             },
@@ -59,8 +60,21 @@ export class TodoDialogComponent implements OnInit {
     }
   }
 
+  submit() {
+    this.todoService.saveTodo(this.todoForm.value)
+      .subscribe({
+        next: (res) => {
+          console.log(this.todoForm.value);
+        },
+
+        error: (err) => {
+          console.log('Loi: ' + err);
+        }
+      })
+  }
+
   updateTodo() {
-    this.todoService.updateTodo(this.todoForm.getRawValue(), this.editData.id)
+    this.todoService.updateTodo(this.todoForm.value, this.editData.id)
       .subscribe({
         next: (res) => {
           alert("Todo updated successfully!");
@@ -71,7 +85,7 @@ export class TodoDialogComponent implements OnInit {
           alert("Error while updating the todo!");
         }
       })
-    console.log(this.todoForm.getRawValue());
+    console.log(this.todoForm.value);
     console.log(this.editData.id);
 
   }

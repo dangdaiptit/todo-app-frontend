@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { ChangeEmailUserComponent } from '../change-email-user/change-email-user.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +11,23 @@ import { AuthService } from '../_services/auth.service';
 export class HeaderComponent {
 
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, public dialog: MatDialog) {
 
   }
 
   getUsername() {
     return localStorage.getItem('username');
+  }
+
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ChangeEmailUserComponent, {
+      width: '60%',
+    });
+
+    // dialogRef.afterClosed().subscribe((result: any) => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
   }
 
 

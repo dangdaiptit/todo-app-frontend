@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ListTodoService } from '../_services/data/list-todo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoDialogComponent } from '../todo-dialog/todo-dialog.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export interface TodoData {
   id: number;
@@ -17,7 +18,7 @@ export interface TodoData {
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css']
+  styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'description', 'targetDate', 'completed', 'action'];
@@ -51,9 +52,7 @@ export class TodoComponent implements OnInit, AfterViewInit {
 
 
   openTodoDialog() {
-    this.dialog.open(TodoDialogComponent, {
-      width: '30%'
-    }).afterClosed().subscribe(val => {
+    this.dialog.open(TodoDialogComponent).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getTodos();
       }
@@ -77,7 +76,6 @@ export class TodoComponent implements OnInit, AfterViewInit {
 
   editTodo(row: any) {
     this.dialog.open(TodoDialogComponent, {
-      width: '30%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {
