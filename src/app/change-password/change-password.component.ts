@@ -94,6 +94,5 @@ export class ChangePasswordComponent {
         );
       },
     });
-    console.log(this.fChangePass.value);
   }
 }

@@ -37,23 +37,23 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  isTokenExpired(): boolean {
-    try {
-      const token = localStorage.getItem('token');
-      if (token) {
-        const expiresAt = new Date(
-          JSON.parse(atob(token.split('.')[1])).exp * 1000
-        );
-        console.log(new Date() > expiresAt);
-        return new Date() > expiresAt;
-      } else {
-        return true;
-      }
-    } catch (error) {
-      console.log('jwt error');
-      return true;
-    }
-  }
+  // isTokenExpired(): boolean {
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     if (token) {
+  //       const expiresAt = new Date(
+  //         JSON.parse(atob(token.split('.')[1])).exp * 1000
+  //       );
+  //       console.log(new Date() > expiresAt);
+  //       return new Date() > expiresAt;
+  //     } else {
+  //       return true;
+  //     }
+  //   } catch (error) {
+  //     console.log('jwt error');
+  //     return true;
+  //   }
+  // }
 
   onLogout() {
     localStorage.clear();

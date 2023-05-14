@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 // import libary dificuft
 //Angular Material Components
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -52,6 +52,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { ProfileAccountComponent } from './profile-account/profile-account.component';
 import { ChangeEmailUserComponent } from './change-email-user/change-email-user.component';
 import { CodeInputModule } from 'angular-code-input';
+import { NgToastModule } from 'ng-angular-popup';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,7 @@ import { CodeInputModule } from 'angular-code-input';
   ],
   imports: [
     CodeInputModule,
+    NgToastModule,
 
     HttpClientModule,
     ReactiveFormsModule,
@@ -114,6 +117,11 @@ import { CodeInputModule } from 'angular-code-input';
         subscriptSizing: 'dynamic',
       },
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 })

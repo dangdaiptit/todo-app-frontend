@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../_services/data/user.service';
 import { map } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile-account',
@@ -16,10 +17,20 @@ export class ProfileAccountComponent {
 
 
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,private route: ActivatedRoute) {
     this.getInforUser();
 
   }
+
+  // ngOnInit() {
+  //   // Lấy giá trị của query parameter
+  //   this.route.queryParams.subscribe(params => {
+  //     if (params['updated']) {
+  //       // Nếu query parameter updated=true, gọi lại hàm getInforUser()
+  //       this.getInforUser();
+  //     }
+  //   });
+  // }
 
   getInforUser() {
     this.userService.getInformationUser().subscribe({

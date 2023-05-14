@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { UserService } from '../_services/data/user.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NgToastService } from 'ng-angular-popup';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 
 export function ConfirmedValidator(
   controlName: string,
@@ -77,12 +79,15 @@ export class LoginComponent implements OnInit {
   successSignupMes = '';
   formSignUp: FormGroup = new FormGroup({});
   loginForm: FormGroup = new FormGroup({});
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  selectedIndex: number;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private formBuider: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private toast: NgToastService
   ) {
     //signup
     this.formSignUp = formBuider.group(
@@ -121,7 +126,15 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+
+
+  ngOnInit(): void {
+    if (this.router.url.includes('/sign-up')) {
+      this.selectedIndex = 1;
+    } else {
+      this.selectedIndex = 0;
+    }
+  }
 
   get signUp() {
     return this.formSignUp.controls;
@@ -137,14 +150,24 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         this.router.navigate(['/todos']);
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Login successfully!',
+          duration: 3000,
+        });
       },
 
       error: (err) => {
-        this.errorMessage =
-          'Login unsuccessful! Please check your login information again';
-        setTimeout(() => {
-          this.errorMessage = '';
-        }, 4000);
+        // this.errorMessage =
+        //   'Login unsuccessful! Please check your login information again';
+        // setTimeout(() => {
+        //   this.errorMessage = '';
+        // }, 4000);
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Login failed!',
+          duration: 3000,
+        });
       },
     });
   }
@@ -155,18 +178,28 @@ export class LoginComponent implements OnInit {
     this.formSignUp.patchValue({ role: ['user'] });
     this.authService.userSignUp(this.formSignUp.value).subscribe({
       next: (res) => {
-        this.successSignupMes = 'User registration successful!';
-        setTimeout(() => {
-          this.successSignupMes = '';
-        }, 3000);
+        // this.successSignupMes = 'User registration successful!';
+        // setTimeout(() => {
+        //   this.successSignupMes = '';
+        // }, 3000);
         this.formSignUp.reset();
+        this.toast.success({
+          summary: 'User registration successful!',
+          duration: 3000,
+        });
+        this.router.navigate(['login']);
       },
 
       error: (err) => {
-        (this.errorSignupMes = 'User registration failed!'),
-          setTimeout(() => {
-            this.errorSignupMes = '';
-          }, 3000);
+        // (this.errorSignupMes = 'User registration failed!'),
+        //   setTimeout(() => {
+        //     this.errorSignupMes = '';
+        //   }, 3000);
+
+        this.toast.error({
+          summary: 'User registration failed!',
+          duration: 3000,
+        });
       },
     });
   }

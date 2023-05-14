@@ -6,6 +6,7 @@ import { ListTodoService } from '../_services/data/list-todo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoDialogComponent } from '../todo-dialog/todo-dialog.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { NgToastService } from 'ng-angular-popup';
 
 export interface TodoData {
   id: number;
@@ -14,27 +15,35 @@ export interface TodoData {
   completed: boolean;
 }
 
-
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'description', 'targetDate', 'completed', 'action'];
-  todos: TodoData[]
+  displayedColumns: string[] = [
+    'id',
+    'description',
+    'targetDate',
+    'completed',
+    'action',
+  ];
+  todos: TodoData[];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private todoService: ListTodoService, private dialog: MatDialog) {
+  constructor(
+    private todoService: ListTodoService,
+    private dialog: MatDialog,
+    private toast: NgToastService
+  ) {
     this.dataSource = new MatTableDataSource();
   }
   ngOnInit() {
     this.getTodos();
   }
-
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -50,56 +59,60 @@ export class TodoComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   openTodoDialog() {
-    this.dialog.open(TodoDialogComponent).afterClosed().subscribe(val => {
-      if (val === 'save') {
-        this.getTodos();
-      }
-    });
-  }
-
-  getTodos() {
-    this.todoService.getTodos()
-      .subscribe({
-        next: (res) => {
-          this.todos = res;
-          this.dataSource = new MatTableDataSource(this.todos);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          alert("Error while fetching the Records!!");
+    this.dialog
+      .open(TodoDialogComponent)
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save') {
+          this.getTodos();
         }
       });
   }
 
-  editTodo(row: any) {
-    this.dialog.open(TodoDialogComponent, {
-      data: row
-    }).afterClosed().subscribe(val => {
-      if (val === 'update') {
-        this.getTodos();
-      }
-    })
-
+  getTodos() {
+    this.todoService.getTodos().subscribe({
+      next: (res) => {
+        this.todos = res;
+        this.dataSource = new MatTableDataSource(this.todos);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        alert('Error while fetching the Records!!');
+        // this.toast.error({detail: "ERROR", summary: 'Error while fetching the Records!!', duration: 3000})
+      },
+    });
   }
 
-  deleteTodo(id:number) {
-    this.todoService.deleteTodo(id)
-    .subscribe({
-      next: (res)=>{
-        alert("Todo deleted successfully!");
+  editTodo(row: any) {
+    this.dialog
+      .open(TodoDialogComponent, {
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'update') {
+          this.getTodos();
+        }
+      });
+  }
+
+  deleteTodo(id: number) {
+    this.todoService.deleteTodo(id).subscribe({
+      next: (res) => {
+        // alert('Todo deleted successfully!');
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Todo deleted successfully!',
+          duration: 3000,
+        });
         this.getTodos();
       },
 
       error(err) {
-        alert("Error while deleting the todo!");
+        alert('Error while deleting the todo!');
       },
-    })
-
+    });
   }
-
-
-
 }

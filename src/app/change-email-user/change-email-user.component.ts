@@ -1,85 +1,117 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
+  AsyncValidatorFn,
   FormBuilder,
-  FormControl,
   FormGroup,
-  NG_VALUE_ACCESSOR,
   Validators,
 } from '@angular/forms';
+import { UserService } from '../_services/data/user.service';
+import { Observable, map } from 'rxjs';
+import { NgToastService } from 'ng-angular-popup';
+import { ActivatedRoute, Router } from '@angular/router';
 // adding to the page props
 
+export function checkPassword(userService: UserService): AsyncValidatorFn {
+  return (
+    control: AbstractControl
+  ): Observable<{
+    [key: string]: any;
+  } | null> => {
+    const password = control.value;
+    return userService
+      .validPassword(password)
+      .pipe(map((exists) => (exists ? null : { passwordValid: true })));
+  };
+}
+
+export function checkEmail(userService: UserService): AsyncValidatorFn {
+  return (
+    control: AbstractControl
+  ): Observable<{
+    [key: string]: any;
+  } | null> => {
+    const email = control.value;
+    return userService
+      .checkExitUserByEmail(email)
+      .pipe(map((exists) => (exists ? { emailExists: true } : null)));
+  };
+}
 @Component({
   selector: 'app-change-email-user',
   templateUrl: './change-email-user.component.html',
   styleUrls: ['./change-email-user.component.css'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false },
+    },
+  ],
 })
 export class ChangeEmailUserComponent implements OnInit {
-  [x: string]: any;
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
-  });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
-  isLinear = true;
+  passwordFormGroup: FormGroup = new FormGroup({});
+  emailFormGroup: FormGroup = new FormGroup({});
+  message: string;
 
-  // code: string = '';
-  @ViewChild(ChangeEmailUserComponent) codeInput: ChangeEmailUserComponent;
+  constructor(
+    private _formBuilder: FormBuilder,
+    private userService: UserService,
+    private toast: NgToastService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    this.passwordFormGroup = _formBuilder.group({
+      password: ['', [Validators.required], checkPassword(userService)],
+    });
 
-  resetCodeInput() {
-    this.codeInput.reset();
+    this.emailFormGroup = _formBuilder.group({
+      email: [
+        '',
+        [Validators.required, Validators.email],
+        checkEmail(userService),
+      ],
+    });
   }
 
-  // this called every time when user changed the code
-  // onCodeChanged(code: string) {}
-
-  // this called only if user entered full code
-  // onCodeCompleted(code: string) {}
-
-  constructor(private _formBuilder: FormBuilder) {}
-
-
-  // constructor(private fb: FormBuilder) {}
-
-  ngOnInit() {
-
+  get fbPasswordFormGroup() {
+    return this.passwordFormGroup.controls;
   }
 
+  get fbEmailFormGroup() {
+    return this.emailFormGroup.controls;
+  }
 
+  changeEmail() {
+    let passwordValue = this.passwordFormGroup.getRawValue();
+    let emailValue = this.emailFormGroup.getRawValue();
 
-  // countdownTime: number = 10; // 5 minutes in seconds
-  // showCountdown: boolean = false;
-  // countdownIntervalId: any;
-  // countdownStarted: boolean = false;
+    let changeEmailRequest = {
+      password: passwordValue.password,
+      email: emailValue.email,
+    };
 
-  // startCountdown() {
-  //   this.showCountdown = true;
-  //   this.countdownStarted = true;
-  //   this.countdownIntervalId = setInterval(() => {
-  //     if (this.countdownTime > 0) {
-  //       this.countdownTime--;
-  //       if (this.countdownTime === 0) {
-  //         this.showCountdown = false;
-  //       }
-  //     } else {
-  //       clearInterval(this.countdownIntervalId);
-  //       this.countdownStarted = false;
-  //       this.countdownTime = 10;
-  //     }
-  //   }, 1000);
-  // }
+    this.userService.changeEmail(changeEmailRequest).subscribe({
+      next: (res) => {
+        this.message = 'Your email has been changed successfully';
+        this.toast.success({
+          summary: 'Your email has been changed successfully',
+          duration: 3000,
+        });
+        const url = this.router.createUrlTree(['user', 'profile-account'], { queryParams: { updated: true }, relativeTo: this.route.parent }).toString();
+        this.router.navigateByUrl(url);
+      },
+      error: (err) => {
+        this.message = 'Your email change request failed!';
+        this.toast.error({
+          summary: 'Your email change request failed!',
+          duration: 3000,
+        });
+      },
+    });
 
-  // stopCountdown() {
-  //   clearInterval(this.countdownIntervalId);
-  //   this.countdownStarted = false;
-  //   this.countdownTime = 10;
-  // }
+    console.log(changeEmailRequest);
+  }
 
-  // onClickSentCode() {
-  //   if (this.countdownStarted) {
-  //     this.stopCountdown();
-  //   }
-
-  //   this.startCountdown();
-  // }
+  ngOnInit() {}
 }

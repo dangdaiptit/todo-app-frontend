@@ -10,7 +10,7 @@ import { ChangeEmailUserComponent } from './change-email-user/change-email-user.
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/todos', pathMatch: 'full' },
   { path: 'todos', component: TodoComponent, canActivate: [AuthGuardService] },
   {
     path: 'user/change-password',
