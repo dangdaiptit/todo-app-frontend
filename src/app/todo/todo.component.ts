@@ -80,7 +80,6 @@ export class TodoComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         alert('Error while fetching the Records!!');
-        // this.toast.error({detail: "ERROR", summary: 'Error while fetching the Records!!', duration: 3000})
       },
     });
   }

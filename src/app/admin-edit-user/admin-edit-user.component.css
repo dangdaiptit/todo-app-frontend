@@ -1,0 +1,11 @@
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+form {
+  margin-top: 15px;
+}

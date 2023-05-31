@@ -7,9 +7,14 @@ table {
   width: 100%;
 }
 
-.list-todo {
-  padding-top: 50px;
+
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
+
 
 .box_mat-button {
   display: flex;
@@ -30,7 +35,7 @@ tr.example-element-row:not(.example-expanded-row):hover {
 
 .text_header {
   text-align: center;
-  font-size: 28px;
-  font-weight: 600;
-  padding-bottom: 15px;
+  font-size: 24px;
+  font-weight: 700;
+  padding-block: 15px;
 }

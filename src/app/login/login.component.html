@@ -1,15 +1,4 @@
 <div class="center_content">
-  <div *ngIf="errorMessage" class="alert alert-danger slide-in-top">
-    {{ errorMessage }}
-  </div>
-
-  <div class="notification alert alert-success" *ngIf="successSignupMes">
-    <strong>Success!</strong>{{ successSignupMes }}
-  </div>
-  <div class="notification alert alert-danger" *ngIf="errorSignupMes">
-    <strong>Error!</strong>{{ errorSignupMes }}
-  </div>
-
   <mat-card class="example-card">
     <mat-card-header class="login_title">
       <mat-card-title>My Todos</mat-card-title>
@@ -29,33 +18,19 @@
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Password</mat-label>
-              <input
-                matInput
-                [type]="hide ? 'password' : 'text'"
-                formControlName="password"
-                name="password"
-              />
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" name="password" />
               <mat-error *ngIf="login.username.hasError('required')">
                 Password is <strong>required</strong>
               </mat-error>
-              <button
-                class="btn_pass"
-                mat-icon-button
-                matSuffix
-                (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide"
-              >
+              <button class="btn_pass" mat-icon-button matSuffix (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{
                   hide ? "visibility_off" : "visibility"
-                }}</mat-icon>
+                  }}</mat-icon>
               </button>
             </mat-form-field>
-            <a href="" class="text-content">Forgot password?</a>
-            <button
-              type="submit"
-              class="btn btn-outline-primary btn-login mt-3 mb-3"
-            >
+            <a routerLink="identify" class="text-content">Forgot password?</a>
+            <button type="submit" class="btn btn-outline-primary btn-login mt-3 mb-3">
               LOGIN
             </button>
           </form>
@@ -79,18 +54,11 @@
 
             <mat-form-field class="example-full-width">
               <mat-label>Email</mat-label>
-              <input
-                type="email"
-                matInput
-                placeholder="Ex. pat@example.com"
-                formControlName="email"
-              />
-              <mat-error
-                *ngIf="
+              <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email" />
+              <mat-error *ngIf="
                   signUp.email.hasError('email') &&
                   !signUp.email.hasError('required')
-                "
-              >
+                ">
                 Please enter a valid email address
               </mat-error>
               <mat-error *ngIf="signUp.email.hasError('required')">
@@ -103,33 +71,20 @@
 
             <mat-form-field class="example-full-width">
               <mat-label>Password</mat-label>
-              <input
-                matInput
-                [type]="hide ? 'password' : 'text'"
-                formControlName="password"
-              />
-              <button
-                class="btn_pass"
-                mat-icon-button
-                matSuffix
-                (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide"
-              >
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
+              <button class="btn_pass" mat-icon-button matSuffix (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon class="icon-hide">{{
                   hide ? "visibility_off" : "visibility"
-                }}</mat-icon>
+                  }}</mat-icon>
               </button>
               <mat-error *ngIf="signUp.password.hasError('required')">
                 Password is <strong>required</strong>
               </mat-error>
-              <mat-error
-                multiLine
-                *ngIf="
+              <mat-error multiLine *ngIf="
                   signUp.password.hasError('pattern') &&
                   !signUp.password.hasError('required')
-                "
-              >
+                ">
                 Password must be at least 8 and up to 40 characters, at least
                 one uppercase letter, one lowercase letter, one number and one
                 special character
@@ -138,38 +93,22 @@
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Confirm Password</mat-label>
-              <input
-                matInput
-                [type]="hidec ? 'password' : 'text'"
-                formControlName="confirmPassword"
-              />
-              <button
-                class="btn_pass"
-                mat-icon-button
-                matSuffix
-                (click)="hidec = !hidec"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hidec"
-              >
+              <input matInput [type]="hidec ? 'password' : 'text'" formControlName="confirmPassword" />
+              <button class="btn_pass" mat-icon-button matSuffix (click)="hidec = !hidec"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidec">
                 <mat-icon>{{
                   hidec ? "visibility_off" : "visibility"
-                }}</mat-icon>
+                  }}</mat-icon>
               </button>
               <mat-error *ngIf="signUp.confirmPassword.hasError('required')">
                 Confirm is <strong>required</strong>
               </mat-error>
-              <mat-error
-                *ngIf="signUp.confirmPassword.hasError('confirmedValidator')"
-              >
+              <mat-error *ngIf="signUp.confirmPassword.hasError('confirmedValidator')">
                 Password and Confirm Password must be match.
               </mat-error>
             </mat-form-field>
-            <button
-              type="submit"
-              class="btn btn-outline-primary btn-login mt-2 mb-5"
-              [disabled]="this.formSignUp.invalid"
-              (click)="userSignUp()"
-            >
+            <button type="submit" class="btn btn-outline-primary btn-login mt-2 mb-5"
+              [disabled]="this.formSignUp.invalid" (click)="userSignUp()">
               SIGN UP
             </button>
           </form>

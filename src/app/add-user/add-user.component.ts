@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import {
-  AbstractControl,
-  AsyncValidatorFn,
-  FormBuilder,
   FormGroup,
+  AsyncValidatorFn,
+  AbstractControl,
+  FormBuilder,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../_services/auth.service';
 import { Router } from '@angular/router';
-import { UserService } from '../_services/data/user.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { NgToastService } from 'ng-angular-popup';
-import { MatTabGroup } from '@angular/material/tabs';
+import { Observable, map } from 'rxjs';
+import { AuthService } from '../_services/auth.service';
+import { UserService } from '../_services/data/user.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialogRef } from '@angular/material/dialog';
 
 export function ConfirmedValidator(
   controlName: string,
@@ -66,21 +67,23 @@ export function emailExistsValidator(
 }
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-add-user',
+  templateUrl: './add-user.component.html',
+  styleUrls: ['./add-user.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class AddUserComponent {
   hide = true; // hide password
   hidec = true; //hide confirm password
+  roleList: string[] = ['ADMIN'];
   formSignUp: FormGroup = new FormGroup({});
-  loginForm: FormGroup = new FormGroup({});
+  selected = 'USER';
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private formBuider: FormBuilder,
     private userService: UserService,
+    private dialogRef: MatDialogRef<AddUserComponent>,
     private toast: NgToastService
   ) {
     //signup
@@ -106,78 +109,60 @@ export class LoginComponent implements OnInit {
           ],
         ],
         confirmPassword: ['', [Validators.required]],
-        role: ['user'],
+        role: [[], Validators.required],
       },
       {
         validator: ConfirmedValidator('password', 'confirmPassword'),
       }
     );
-
-    //login
-    this.loginForm = formBuider.group({
-      username: ['', [Validators.required]],
-      password: ['', Validators.required],
-    });
   }
 
-  ngOnInit(): void {}
+  //addUser
+
+  addUser() {
+    const formValue = this.formSignUp.getRawValue(); // lấy giá trị của form
+    const formattedValue = {
+      username: formValue.username,
+      email: formValue.email,
+      role: formValue.role.map((role: string) => role.toLowerCase()),
+      password: formValue.password,
+      confirmPassword: formValue.confirmPassword,
+    }; // định dạng lại giá trị của form theo định dạng yêu cầu
+
+    this.authService.userSignUp(formattedValue).subscribe({
+      next: (res) => {
+        this.formSignUp.reset();
+        this.toast.success({
+          summary: 'Add User successful!',
+          duration: 3000,
+        });
+        console.log(formattedValue);
+
+        this.dialogRef.close('save');
+      },
+      error: (err) => {
+        this.toast.error({
+          summary: 'Add User failed!',
+          duration: 3000,
+        });
+      },
+    });
+  }
 
   get signUp() {
     return this.formSignUp.controls;
   }
 
-  get login() {
-    return this.loginForm.controls;
-  }
+  onSubmit() {
+    const formValue = this.formSignUp.getRawValue(); // lấy giá trị của form
+    const formattedValue = {
+      username: formValue.username,
+      email: formValue.email,
+      role: formValue.role.map((role: string) => role.toLowerCase()),
+      password: formValue.password,
+      confirmPassword: formValue.confirmPassword,
+    }; // định dạng lại giá trị của form theo định dạng yêu cầu
 
-  loginUser() {
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (data) => {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
-        localStorage.setItem('roles', data.roles);
-        if (data.roles.includes('ROLE_ADMIN')) {
-          this.router.navigate(['/admin/manager-user']);
-        } else {
-          this.router.navigate(['/todos']);
-        }
-
-        this.toast.success({
-          detail: 'SUCCESS',
-          summary: 'Login successfully!',
-          duration: 3000,
-        });
-      },
-
-      error: (err) => {
-        this.toast.error({
-          detail: 'ERROR',
-          summary: 'Login failed!',
-          duration: 3000,
-        });
-      },
-    });
-  }
-
-  //signUp
-
-  userSignUp() {
-    this.formSignUp.patchValue({ role: ['user'] });
-    this.authService.userSignUp(this.formSignUp.value).subscribe({
-      next: (res) => {
-        this.formSignUp.reset();
-        this.toast.success({
-          summary: 'User registration successful!',
-          duration: 3000,
-        });
-        this.router.navigate(['login']);
-      },
-      error: (err) => {
-        this.toast.error({
-          summary: 'User registration failed!',
-          duration: 3000,
-        });
-      },
-    });
+    console.log(formattedValue); // in ra giá trị của form đã được định dạng lại
   }
 }

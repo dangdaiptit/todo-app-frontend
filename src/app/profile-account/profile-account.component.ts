@@ -22,22 +22,12 @@ export class ProfileAccountComponent {
 
   }
 
-  // ngOnInit() {
-  //   // Lấy giá trị của query parameter
-  //   this.route.queryParams.subscribe(params => {
-  //     if (params['updated']) {
-  //       // Nếu query parameter updated=true, gọi lại hàm getInforUser()
-  //       this.getInforUser();
-  //     }
-  //   });
-  // }
 
   getInforUser() {
     this.userService.getInformationUser().subscribe({
       next: (res: any) => {
         this.username = res.username;
         this.email = res.email;
-        // this.roles = res.roles.map((role: { name: any; }) => role.name);
         this.roles = res.roles.map((roleItem: { name: string; }) => {
           let roleName = '';
           if (roleItem.name === 'ROLE_ADMIN') {

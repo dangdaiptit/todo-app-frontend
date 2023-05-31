@@ -1,5 +1,5 @@
-<div class="container list-todo">
-  <p class="text_header">Your to-do list</p>
+<div class="container mt-3">
+  <p class="text_header">User manager</p>
   <mat-form-field appearance="fill">
     <mat-label>Filter</mat-label>
     <input
@@ -10,38 +10,46 @@
     />
   </mat-form-field>
   <div class="example-button-row mb-3">
-    <button mat-raised-button color="warn" (click)="openTodoDialog()">
-      Add Todo
+    <button mat-raised-button color="warn" (click)="openAddUserDialog()">
+      Add User
     </button>
   </div>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
       <!-- ID Column -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
         <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
       </ng-container>
 
       <!-- description Column -->
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-        <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+        <td mat-cell *matCellDef="let row">{{ row.username }}</td>
       </ng-container>
 
       <!-- description Column -->
-      <ng-container matColumnDef="targetDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Target Date</th>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
         <td mat-cell *matCellDef="let row">
-          {{ row.targetDate | date : "MM/dd/yyyy" }}
+          {{row.email}}
         </td>
       </ng-container>
 
       <!-- completed Column -->
-      <ng-container matColumnDef="completed">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Completed</th>
+      <ng-container matColumnDef="password">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Password</th>
+        <td mat-cell *matCellDef="let row" class="truncate-text">
+          {{row.password}}
+        </td>
+      </ng-container>
+
+      <!-- completed Column -->
+      <ng-container matColumnDef="roles">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Roles</th>
         <td mat-cell *matCellDef="let row">
-          <mat-icon *ngIf="row.completed" style="color: green">done</mat-icon>
-          <mat-icon *ngIf="!row.completed" color="warn">clear</mat-icon>
+          <!-- {{row.roles}} -->
+          {{ row.roles && row.roles.length ? row.roles.join(", ") : "No roles" }}
         </td>
       </ng-container>
 
@@ -50,10 +58,10 @@
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let row" class="action-buttons">
           <div class="box_mat-button">
-            <button mat-icon-button color="primary" class="mat-button" (click)="editTodo(row)">
+            <button mat-icon-button color="primary" class="mat-button" (click)="openDialogAdminEdit(row)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" class="mat-button" (click)="deleteTodo(row.id)">
+            <button mat-icon-button color="warn" class="mat-button" (click)="deleteUser(row.id)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

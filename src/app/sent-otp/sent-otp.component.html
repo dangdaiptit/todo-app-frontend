@@ -1,0 +1,29 @@
+<div class="center_content">
+  <div class="container">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Enter the security code</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>We sent you the code to: <strong>{{email}}</strong></p>
+        <p>
+          Please check the code in your email. This code consists of 6 numbers.
+        </p>
+        <code-input
+          [isCodeHidden]="false"
+          [codeLength]="6"
+          (codeChanged)="onCodeChanged($event)"
+          (codeCompleted)="onCodeCompleted($event)"
+        >
+        </code-input>
+        <br>
+        <span *ngIf="showCountdown">OTP code will expire in {{count}} (s)! </span>
+        <span (click)="startCountdown()" style="cursor: pointer;"><strong (click)="requestSentOTP()">Resend</strong></span>
+      </mat-card-content>
+      <mat-card-actions [align]="'end'">
+        <button mat-button routerLink="/login/identify">Cancel</button>
+        <!-- <button mat-flat-button color="primary" routerLink="/login/new-password" (click)="onCodeCompleted(code)">Next</button> -->
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

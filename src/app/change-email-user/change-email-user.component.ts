@@ -98,8 +98,7 @@ export class ChangeEmailUserComponent implements OnInit {
           summary: 'Your email has been changed successfully',
           duration: 3000,
         });
-        const url = this.router.createUrlTree(['user', 'profile-account'], { queryParams: { updated: true }, relativeTo: this.route.parent }).toString();
-        this.router.navigateByUrl(url);
+        this.router.navigate(['user/profile-account']);
       },
       error: (err) => {
         this.message = 'Your email change request failed!';

@@ -7,26 +7,48 @@ import { PageNotFoundComponentComponent } from './page-not-found-component/page-
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ProfileAccountComponent } from './profile-account/profile-account.component';
 import { ChangeEmailUserComponent } from './change-email-user/change-email-user.component';
+import { AdminAuthGuard } from './_services/admin-auth.guard';
+import { ManagerUserComponent } from './manager-user/manager-user.component';
+import { IdentifyEmailComponent } from './identify-email/identify-email.component';
+import { SentOtpComponent } from './sent-otp/sent-otp.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { CanActivateOTPGuard } from './_services/can-activate-otp.guard';
+import { CanActivateEmailGuard } from './_services/can-activate-email.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/todos', pathMatch: 'full' },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'login',
+    children: [
+      {path: 'identify', component: IdentifyEmailComponent},
+      {path: 'code', component: SentOtpComponent, canActivate: [CanActivateEmailGuard]},
+      {path: 'new-password', component: ResetPasswordComponent, canActivate: [CanActivateOTPGuard]}
+    ]
+  },
+  {
+    path: 'user',
+    canActivate: [AuthGuardService],
+    children: [
+      { path: 'profile-account', component: ProfileAccountComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
+      { path: 'change-email', component: ChangeEmailUserComponent },
+    ],
+  },
+  {
+    path: 'admin',
+    canActivate: [AdminAuthGuard],
+    children: [
+      {
+        path: 'manager-user',
+        component: ManagerUserComponent,
+      },
+    ],
+  },
   { path: 'todos', component: TodoComponent, canActivate: [AuthGuardService] },
-  {
-    path: 'user/change-password',
-    component: ChangePasswordComponent,
-    canActivate: [AuthGuardService],
-  },
-  {
-    path: 'user/profile-account',
-    component: ProfileAccountComponent,
-    canActivate: [AuthGuardService],
-  },
-  {
-    path: 'user/change-email',
-    component: ChangeEmailUserComponent,
-    canActivate: [AuthGuardService],
-  },
+  { path: '', redirectTo: '/todos', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponentComponent },
 ];
 

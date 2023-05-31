@@ -15,7 +15,7 @@ export class AppComponent {
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         const url = event.url.split('#')[0];
-        if (url === '/login') {
+        if (url.startsWith('/login')) {
           this.showHead = false;
         } else {
           this.showHead = true;

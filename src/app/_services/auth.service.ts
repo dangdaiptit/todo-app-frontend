@@ -31,29 +31,13 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  isUserLoggedIn(): boolean {
-    // let user = localStorage.getItem('token');
-    // return !(user === null);
-    return !!localStorage.getItem('token');
+  getRoles() {
+    return localStorage.getItem('roles');
   }
 
-  // isTokenExpired(): boolean {
-  //   try {
-  //     const token = localStorage.getItem('token');
-  //     if (token) {
-  //       const expiresAt = new Date(
-  //         JSON.parse(atob(token.split('.')[1])).exp * 1000
-  //       );
-  //       console.log(new Date() > expiresAt);
-  //       return new Date() > expiresAt;
-  //     } else {
-  //       return true;
-  //     }
-  //   } catch (error) {
-  //     console.log('jwt error');
-  //     return true;
-  //   }
-  // }
+  isUserLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
 
   onLogout() {
     localStorage.clear();

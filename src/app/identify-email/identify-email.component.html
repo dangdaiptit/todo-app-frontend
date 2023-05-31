@@ -1,0 +1,28 @@
+<div class="center_content">
+  <div class="container">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Find your account</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Please enter your email to search for your account.</p>
+        <form [formGroup]="findEmailForm">
+          <mat-form-field appearance="outline" >
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+            <mat-error *ngIf="findEmail.email.hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="findEmail.email.hasError('email')">
+              Please enter a valid email address
+            </mat-error>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions [align]="'end'">
+        <button mat-button routerLink="/login">Cancel</button>
+        <button mat-flat-button color="primary" (click)="findUserByEmail()">Search</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
