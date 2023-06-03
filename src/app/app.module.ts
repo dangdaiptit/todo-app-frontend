@@ -54,7 +54,7 @@ import { ChangeEmailUserComponent } from './change-email-user/change-email-user.
 import { CodeInputModule } from 'angular-code-input';
 import { NgToastModule } from 'ng-angular-popup';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { AdminBoardComponent } from './admin-board/admin-board.component';
+
 import { ManagerUserComponent } from './manager-user/manager-user.component';
 import { AdminEditUserComponent } from './admin-edit-user/admin-edit-user.component';
 import { AddUserComponent } from './add-user/add-user.component';
@@ -74,7 +74,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ChangePasswordComponent,
     ProfileAccountComponent,
     ChangeEmailUserComponent,
-    AdminBoardComponent,
     ManagerUserComponent,
     AdminEditUserComponent,
     AddUserComponent,
@@ -85,7 +84,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   imports: [
     CodeInputModule,
     NgToastModule,
-
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
