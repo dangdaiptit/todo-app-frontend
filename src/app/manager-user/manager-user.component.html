@@ -38,15 +38,16 @@
 
       <!-- completed Column -->
       <ng-container matColumnDef="password">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Password</th>
+        <th mat-header-cell *matHeaderCellDef>Password</th>
         <td mat-cell *matCellDef="let row" class="truncate-text">
-          {{row.password}}
+          <!-- {{row.password}}  -->
+          *************
         </td>
       </ng-container>
 
       <!-- completed Column -->
       <ng-container matColumnDef="roles">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Roles</th>
+        <th mat-header-cell *matHeaderCellDef>Roles</th>
         <td mat-cell *matCellDef="let row">
           <!-- {{row.roles}} -->
           {{ row.roles && row.roles.length ? row.roles.join(", ") : "No roles" }}

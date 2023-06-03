@@ -133,7 +133,9 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.authService.login(this.loginForm.value).subscribe({
       next: (data) => {
-        localStorage.setItem('token', data.token);
+        // localStorage.setItem('token', data.token);
+        this.authService.storeToken(data.token);
+        this.authService.storeRefreshToken(data.refreshToken);
         localStorage.setItem('username', data.username);
         localStorage.setItem('roles', data.roles);
         if (data.roles.includes('ROLE_ADMIN')) {

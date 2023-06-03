@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TokenApiModel } from '../model/token-api.model';
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
 
@@ -27,8 +28,16 @@ export class AuthService {
     localStorage.setItem('token', tokenValue);
   }
 
+  storeRefreshToken(tokenValue: string) {
+    localStorage.setItem('refreshToken', tokenValue);
+  }
+
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem('refreshToken');
   }
 
   getRoles() {
@@ -40,7 +49,22 @@ export class AuthService {
   }
 
   onLogout() {
-    localStorage.clear();
+    this.http.post<any>('http://localhost:8080/api/auth/logout', {}).subscribe({
+      next: (res) => {
+        console.log('logout thanh cong');
+      },
+      error: (err) => {
+        console.log('logout that bai');
+      },
+    });
     this.router.navigate(['/login']);
+    localStorage.clear();
+  }
+
+  renewToken(data: any): Observable<any> {
+    return this.http.post<any>(
+      'http://localhost:8080/api/auth/refreshtoken',
+      data
+    );
   }
 }
