@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "heroku-postbuild": "ng build --prod && yarn global add http-server-spa",
+    "heroku-postbuild": "ng build --configuration=production && yarn global add http-server-spa",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "start": "http-server-spa dist/todo-app-frontend index.html $PORT"
