@@ -9,6 +9,12 @@
       <mat-icon>account_circle</mat-icon>
       <span>{{ getUsername() }}</span>
     </button>
+
+    <button mat-menu-item routerLink="/todos">
+      <mat-icon>ballot</mat-icon>
+      <span>Todos</span>
+    </button>
+
     <button *ngIf="getRoleAdmin()" mat-menu-item [matMenuTriggerFor]="adminMenu">
       <mat-icon>manage_accounts</mat-icon>
       <span>Admin</span>
