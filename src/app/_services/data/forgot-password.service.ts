@@ -34,7 +34,7 @@ export class ForgotPasswordService {
 
   resetPassword(email: any, data: any) {
     return this.http.put(
-      this.baseUrl + `httpreset-password?email=${email}`,
+      this.baseUrl + `api/reset-password?email=${email}`,
       data
     );
   }
