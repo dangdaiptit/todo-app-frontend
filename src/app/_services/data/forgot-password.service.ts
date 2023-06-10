@@ -1,5 +1,6 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ export class ForgotPasswordService {
   emailFound: boolean = false;
   otpValid: boolean = false;
   email: string = '';
-
+  baseUrl = environment.baseUrl;
   constructor(private http: HttpClient) {}
 
   setEmailFound(value: boolean) {
@@ -24,22 +25,16 @@ export class ForgotPasswordService {
   }
 
   requestSentOTP(email: any) {
-    return this.http.post(
-      'http://localhost:8080/api/reset-password/request',
-      email
-    );
+    return this.http.post(this.baseUrl + 'api/reset-password/request', email);
   }
 
   verifyOTP(data: any) {
-    return this.http.post(
-      'http://localhost:8080/api/reset-password/verify-otp',
-      data
-    );
+    return this.http.post(this.baseUrl + 'api/reset-password/verify-otp', data);
   }
 
   resetPassword(email: any, data: any) {
     return this.http.put(
-      `http://localhost:8080/api/reset-password?email=${email}`,
+      this.baseUrl + `httpreset-password?email=${email}`,
       data
     );
   }
