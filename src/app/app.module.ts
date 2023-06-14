@@ -61,6 +61,8 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { IdentifyEmailComponent } from './identify-email/identify-email.component';
 import { SentOtpComponent } from './sent-otp/sent-otp.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     IdentifyEmailComponent,
     SentOtpComponent,
     ResetPasswordComponent,
+    SpinnerComponent,
   ],
   imports: [
     CodeInputModule,
@@ -132,6 +135,11 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true
     }
   ],
