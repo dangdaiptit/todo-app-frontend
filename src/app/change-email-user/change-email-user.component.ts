@@ -59,11 +59,11 @@ export class ChangeEmailUserComponent implements OnInit {
 
 
   constructor(
-    private _formBuilder: FormBuilder,
+    public _formBuilder: FormBuilder,
     private userService: UserService,
     private toast: NgToastService,
-    private router: Router,
-    private route: ActivatedRoute,
+    public router: Router,
+    public route: ActivatedRoute,
     private breakpointObserver: BreakpointObserver
   ) {
 
@@ -119,7 +119,6 @@ export class ChangeEmailUserComponent implements OnInit {
           summary: 'Your email has been changed successfully',
           duration: 3000,
         });
-        // this.router.navigate(['/user/profile-account']);
       },
       error: (err) => {
         this.message = 'Your email change request failed!';
@@ -132,4 +131,6 @@ export class ChangeEmailUserComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+
 }

@@ -1,6 +1,5 @@
 <div class="container mt-5">
   <h2 mat-dialog-title>Change email address</h2>
-
   <mat-stepper *ngIf="isLargeScreen" linear #stepper>
     <mat-step [stepControl]="passwordFormGroup" [editable]="false">
       <form [formGroup]="passwordFormGroup">
@@ -36,7 +35,6 @@
           </mat-error>
         </mat-form-field>
         <div>
-          <button mat-button mat-dialog-close>Close</button>
           <button mat-button matStepperNext (click)="changeEmail()">
             Next
           </button>
@@ -89,7 +87,6 @@
           </mat-error>
         </mat-form-field>
         <div>
-          <button mat-button mat-dialog-close>Close</button>
           <button mat-button matStepperNext (click)="changeEmail()">
             Next
           </button>
