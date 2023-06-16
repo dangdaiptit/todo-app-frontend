@@ -1,14 +1,10 @@
-.footer{
-  position: absolute;
+footer{
+  background-color: #3F51B5;
+  color: white;
+  position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #222222;
 }
 
-.footer .box-footer{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
 
-}
+

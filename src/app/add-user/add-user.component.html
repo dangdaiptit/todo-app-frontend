@@ -18,11 +18,17 @@
 
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Email</mat-label>
-        <input type="email" matInput placeholder="Ex. pat@example.com" formControlName="email" />
-        <mat-error *ngIf="
-            signUp.email.hasError('email') &&
-            !signUp.email.hasError('required')
-          ">
+        <input
+          type="email"
+          matInput
+          placeholder="Ex. pat@example.com"
+          formControlName="email"
+        />
+        <mat-error
+          *ngIf="
+            signUp.email.hasError('email') && !signUp.email.hasError('required')
+          "
+        >
           Please enter a valid email address
         </mat-error>
         <mat-error *ngIf="signUp.email.hasError('required')">
@@ -35,39 +41,62 @@
 
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" />
-        <button class="btn_pass" mat-icon-button matSuffix (click)="hide = !hide"
-          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          class="btn_pass"
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
           <mat-icon class="icon-hide">{{
             hide ? "visibility_off" : "visibility"
-            }}</mat-icon>
+          }}</mat-icon>
         </button>
         <mat-error *ngIf="signUp.password.hasError('required')">
           Password is <strong>required</strong>
         </mat-error>
-        <mat-error multiLine *ngIf="
+        <mat-error
+          multiLine
+          *ngIf="
             signUp.password.hasError('pattern') &&
             !signUp.password.hasError('required')
-          ">
-          Password must be at least 8 and up to 40 characters, at least
-          one uppercase letter, one lowercase letter, one number and one
-          special character
+          "
+        >
+          Password must be at least 8 and up to 40 characters, at least one
+          uppercase letter, one lowercase letter, one number and one special
+          character
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Confirm Password</mat-label>
-        <input matInput [type]="hidec ? 'password' : 'text'" formControlName="confirmPassword" />
-        <button class="btn_pass" mat-icon-button matSuffix (click)="hidec = !hidec"
-          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidec">
-          <mat-icon>{{
-            hidec ? "visibility_off" : "visibility"
-            }}</mat-icon>
+        <input
+          matInput
+          [type]="hidec ? 'password' : 'text'"
+          formControlName="confirmPassword"
+        />
+        <button
+          class="btn_pass"
+          mat-icon-button
+          matSuffix
+          (click)="hidec = !hidec"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidec"
+        >
+          <mat-icon>{{ hidec ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
         <mat-error *ngIf="signUp.confirmPassword.hasError('required')">
           Confirm is <strong>required</strong>
         </mat-error>
-        <mat-error *ngIf="signUp.confirmPassword.hasError('confirmedValidator')">
+        <mat-error
+          *ngIf="signUp.confirmPassword.hasError('confirmedValidator')"
+        >
           Password and Confirm Password must be match.
         </mat-error>
       </mat-form-field>
@@ -75,23 +104,25 @@
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Roles</mat-label>
         <mat-select multiple formControlName="role">
-          <mat-option value="USER" selected >USER</mat-option>
+          <mat-option value="USER" disabled>USER</mat-option>
           <mat-option *ngFor="let roles of roleList" [value]="roles">{{
             roles
-            }}</mat-option>
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <div mat-dialog-actions [align]="'end'">
         <button mat-raised-button color="warn" mat-dialog-close>Close</button>
-        <button type="submit" mat-raised-button color="primary"
-        [disabled]="this.formSignUp.invalid" (click)="addUser()">
-        SIGN UP
-      </button>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="this.formSignUp.invalid"
+          (click)="addUser()"
+        >
+          SIGN UP
+        </button>
       </div>
-
     </form>
   </div>
-
-
 </div>

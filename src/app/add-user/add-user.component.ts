@@ -6,13 +6,10 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/data/user.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { MatDialogRef } from '@angular/material/dialog';
 
 export function ConfirmedValidator(
@@ -80,9 +77,8 @@ export class AddUserComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private formBuider: FormBuilder,
-    private userService: UserService,
+    formBuider: FormBuilder,
+    userService: UserService,
     private dialogRef: MatDialogRef<AddUserComponent>,
     private toast: NgToastService
   ) {
@@ -91,13 +87,22 @@ export class AddUserComponent {
       {
         username: [
           '',
-          [Validators.required, Validators.pattern(/^[a-z0-9_-]{3,20}$/)],
-          usernameExistsValidator(userService),
+          {
+            validators: [
+              Validators.required,
+              Validators.pattern(/^[a-z0-9_-]{3,20}$/),
+            ],
+            asyncValidators: usernameExistsValidator(userService),
+            updateOn: 'blur',
+          },
         ],
         email: [
           '',
-          [Validators.required, Validators.email],
-          emailExistsValidator(userService),
+          {
+            validators: [Validators.required, Validators.email],
+            asyncValidators: emailExistsValidator(userService),
+            updateOn: 'blur',
+          },
         ],
         password: [
           '',
@@ -109,7 +114,7 @@ export class AddUserComponent {
           ],
         ],
         confirmPassword: ['', [Validators.required]],
-        role: [[], Validators.required],
+        role: [['USER'], Validators.required],
       },
       {
         validator: ConfirmedValidator('password', 'confirmPassword'),
@@ -130,7 +135,7 @@ export class AddUserComponent {
     }; // định dạng lại giá trị của form theo định dạng yêu cầu
 
     this.authService.userSignUp(formattedValue).subscribe({
-      next: (res) => {
+      next: () => {
         this.formSignUp.reset();
         this.toast.success({
           summary: 'Add User successful!',
@@ -140,7 +145,7 @@ export class AddUserComponent {
 
         this.dialogRef.close('save');
       },
-      error: (err) => {
+      error: () => {
         this.toast.error({
           summary: 'Add User failed!',
           duration: 3000,
@@ -163,6 +168,5 @@ export class AddUserComponent {
       confirmPassword: formValue.confirmPassword,
     }; // định dạng lại giá trị của form theo định dạng yêu cầu
 
-    console.log(formattedValue); // in ra giá trị của form đã được định dạng lại
   }
 }

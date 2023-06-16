@@ -62,14 +62,24 @@ export class ChangeEmailUserComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.passwordFormGroup = _formBuilder.group({
-      password: ['', [Validators.required], checkPassword(userService)],
+      password: [
+        '',
+        {
+          validators: [Validators.required],
+          asyncValidators: checkPassword(userService),
+          updateOn: 'blur',
+        },
+      ],
     });
 
     this.emailFormGroup = _formBuilder.group({
       email: [
         '',
-        [Validators.required, Validators.email],
-        checkEmail(userService),
+        {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: checkEmail(userService),
+          updateOn: 'blur',
+        },
       ],
     });
   }
@@ -98,7 +108,7 @@ export class ChangeEmailUserComponent implements OnInit {
           summary: 'Your email has been changed successfully',
           duration: 3000,
         });
-        this.router.navigate(['user/profile-account']);
+        // this.router.navigate(['/user/profile-account']);
       },
       error: (err) => {
         this.message = 'Your email change request failed!';
@@ -108,8 +118,6 @@ export class ChangeEmailUserComponent implements OnInit {
         });
       },
     });
-
-    console.log(changeEmailRequest);
   }
 
   ngOnInit() {}

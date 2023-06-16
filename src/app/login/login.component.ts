@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -12,7 +12,6 @@ import { UserService } from '../_services/data/user.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgToastService } from 'ng-angular-popup';
-import { MatTabGroup } from '@angular/material/tabs';
 
 export function ConfirmedValidator(
   controlName: string,
@@ -88,13 +87,22 @@ export class LoginComponent implements OnInit {
       {
         username: [
           '',
-          [Validators.required, Validators.pattern(/^[a-z0-9_-]{3,20}$/)],
-          usernameExistsValidator(userService),
+          {
+            validators: [
+              Validators.required,
+              Validators.pattern(/^[a-z0-9_-]{3,20}$/),
+            ],
+            asyncValidators: [usernameExistsValidator(userService)],
+            updateOn: 'blur',
+          },
         ],
         email: [
           '',
-          [Validators.required, Validators.email],
-          emailExistsValidator(userService),
+          {
+            validators: [Validators.required, Validators.email],
+            asyncValidators: emailExistsValidator(userService),
+            updateOn: 'blur',
+          },
         ],
         password: [
           '',

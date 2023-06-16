@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ListTodoService } from '../_services/data/list-todo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TodoDialogComponent } from '../todo-dialog/todo-dialog.component';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { NgToastService } from 'ng-angular-popup';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 export interface TodoData {
   id: number;
@@ -21,6 +21,14 @@ export interface TodoData {
   styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent implements OnInit, AfterViewInit {
+  private breakpointMaxWidths = new Map([
+    [Breakpoints.XSmall, '100%'],
+    [Breakpoints.Small, '80%'],
+    [Breakpoints.Medium, '60%'],
+    [Breakpoints.Large, '50%'],
+    [Breakpoints.XLarge, '40%'],
+  ]);
+
   displayedColumns: string[] = [
     'id',
     'description',
@@ -37,7 +45,8 @@ export class TodoComponent implements OnInit, AfterViewInit {
   constructor(
     private todoService: ListTodoService,
     private dialog: MatDialog,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.dataSource = new MatTableDataSource();
   }
@@ -59,15 +68,37 @@ export class TodoComponent implements OnInit, AfterViewInit {
     }
   }
 
+
+
   openTodoDialog() {
-    this.dialog
-      .open(TodoDialogComponent)
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'save') {
-          this.getTodos();
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      width: '50%', // Giá trị mặc định
+    });
+
+    // Kiểm tra breakpoint và đặt giá trị maxWidth phù hợp
+    this.breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .subscribe((result) => {
+        const matches = Object.keys(result.breakpoints).filter(
+          (key) => result.breakpoints[key]
+        );
+        const breakpointMaxWidth = this.breakpointMaxWidths.get(matches[0]);
+        if (breakpointMaxWidth) {
+          dialogRef.updateSize(breakpointMaxWidth);
         }
       });
+
+    dialogRef.afterClosed().subscribe((val) => {
+      if (val === 'save') {
+        this.getTodos();
+      }
+    });
   }
 
   getTodos() {
@@ -85,22 +116,38 @@ export class TodoComponent implements OnInit, AfterViewInit {
   }
 
   editTodo(row: any) {
-    this.dialog
-      .open(TodoDialogComponent, {
-        data: row,
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'update') {
-          this.getTodos();
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      data: row,
+      width: '50%',
+    });
+    this.breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .subscribe((result) => {
+        const matches = Object.keys(result.breakpoints).filter(
+          (key) => result.breakpoints[key]
+        );
+        const breakpointMaxWidth = this.breakpointMaxWidths.get(matches[0]);
+        if (breakpointMaxWidth) {
+          dialogRef.updateSize(breakpointMaxWidth);
         }
       });
+
+      dialogRef.afterClosed().subscribe(val => {
+        if(val === 'update') {
+          this.getTodos();
+        }
+      })
   }
 
   deleteTodo(id: number) {
     this.todoService.deleteTodo(id).subscribe({
       next: (res) => {
-        // alert('Todo deleted successfully!');
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Todo deleted successfully!',

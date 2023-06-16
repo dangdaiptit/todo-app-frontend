@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ManagerUserComponent } from '../manager-user/manager-user.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   AbstractControl,
@@ -51,8 +50,13 @@ export class AdminEditUserComponent implements OnInit {
     this.changeEmailForm = this._formBuilder.group({
       email: [
         '',
-        [Validators.required, Validators.email],
-        checkEmail(this.userService),
+        {
+          validators: [Validators.required, Validators.email],
+          asyncValidators: checkEmail(this.userService),
+          updateOn: 'blur',
+        }
+
+
       ],
     });
 

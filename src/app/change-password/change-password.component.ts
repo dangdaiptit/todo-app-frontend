@@ -59,7 +59,14 @@ export class ChangePasswordComponent {
   ) {
     this.fChangePass = fb.group(
       {
-        oldPassword: ['', [Validators.required], checkPassword(userService)],
+        oldPassword: [
+          '',
+          {
+            validators: [Validators.required],
+            asyncValidators: checkPassword(userService),
+            updateOn: 'blur',
+          },
+        ],
         newPassword: [
           '',
           [

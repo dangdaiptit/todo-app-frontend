@@ -34,3 +34,9 @@ tr.example-element-row:not(.example-expanded-row):hover {
   font-weight: 600;
   padding-bottom: 15px;
 }
+
+
+
+.mat-elevation-z8 {
+  overflow-x: auto;
+}

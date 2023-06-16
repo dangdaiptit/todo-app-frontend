@@ -9,6 +9,7 @@ import { UserRole } from '../model/roles';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
+  [x: string]: any;
   constructor(public authService: AuthService, public dialog: MatDialog) {}
 
   getUsername() {

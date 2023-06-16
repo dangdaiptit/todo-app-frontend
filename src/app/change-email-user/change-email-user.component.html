@@ -47,7 +47,7 @@
       <ng-template matStepLabel>Done</ng-template>
       <p>{{ message }}</p>
       <div>
-        <button mat-button mat-dialog-close>Close</button>
+        <button mat-button mat-dialog-close routerLink="/user/profile-account">Close</button>
         <button mat-button (click)="stepper.reset()">Reset</button>
       </div>
     </mat-step>

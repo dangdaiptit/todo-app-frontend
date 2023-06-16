@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { AdminEditUserComponent } from '../admin-edit-user/admin-edit-user.component';
 import { AddUserComponent } from '../add-user/add-user.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 
@@ -25,6 +26,21 @@ export interface UsersData {
 })
 export class ManagerUserComponent implements OnInit, AfterViewInit {
   [x: string]: any;
+  private  breakpointWidths = new Map([
+    [Breakpoints.XSmall, '100%'],
+    [Breakpoints.Small, '80%'],
+    [Breakpoints.Medium, '60%'],
+    [Breakpoints.Large, '50%'],
+    [Breakpoints.XLarge, '40%'],
+  ]);
+
+  private breakpointMaxWidths = new Map([
+    [Breakpoints.XSmall, '100%'],
+    [Breakpoints.Small, '80%'],
+    [Breakpoints.Medium, '60%'],
+    [Breakpoints.Large, '50%'],
+    [Breakpoints.XLarge, '40%'],
+  ]);
 
   displayedColumns: string[] = [
     'id',
@@ -43,7 +59,8 @@ export class ManagerUserComponent implements OnInit, AfterViewInit {
   constructor(
     private dialog: MatDialog,
     private toast: NgToastService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.dataSource = new MatTableDataSource();
   }
@@ -96,31 +113,49 @@ export class ManagerUserComponent implements OnInit, AfterViewInit {
     });
   }
 
+
   openDialogAdminEdit(row: any) {
-    this.dialog
-      .open(AdminEditUserComponent, {
-        data: row,
-        width: '40%',
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'save') {
-          this.getUsers();
-        }
-      });
+    const dialogRef = this.dialog.open(AdminEditUserComponent, {
+      data: row,
+      width: '40%', // Giá trị mặc định
+    });
+
+    // Kiểm tra breakpoint và đặt giá trị width phù hợp
+    this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge]).subscribe(result => {
+      const matches = Object.keys(result.breakpoints).filter(key => result.breakpoints[key]);
+      const breakpointWidth = this.breakpointWidths.get(matches[0]);
+      if (breakpointWidth) {
+        dialogRef.updateSize(breakpointWidth);
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(val => {
+      if (val === 'save') {
+        this.getUsers();
+      }
+    });
   }
 
+
   openAddUserDialog() {
-    this.dialog
-      .open(AddUserComponent, {
-        width: '50%'
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'save') {
-          this.getUsers();
-        }
-      });
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      width: '50%', // Giá trị mặc định
+    });
+
+    // Kiểm tra breakpoint và đặt giá trị maxWidth phù hợp
+    this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge]).subscribe(result => {
+      const matches = Object.keys(result.breakpoints).filter(key => result.breakpoints[key]);
+      const breakpointMaxWidth = this.breakpointMaxWidths.get(matches[0]);
+      if (breakpointMaxWidth) {
+        dialogRef.updateSize(breakpointMaxWidth);
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(val => {
+      if (val === 'save') {
+        this.getUsers();
+      }
+    });
   }
 
 
