@@ -11,6 +11,7 @@ import { UserService } from '../_services/data/user.service';
 import { Observable, map } from 'rxjs';
 import { NgToastService } from 'ng-angular-popup';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 // adding to the page props
 
 export function checkPassword(userService: UserService): AsyncValidatorFn {
@@ -53,14 +54,24 @@ export class ChangeEmailUserComponent implements OnInit {
   passwordFormGroup: FormGroup = new FormGroup({});
   emailFormGroup: FormGroup = new FormGroup({});
   message: string;
+  isSmallScreen = false;
+  isLargeScreen = true;
+
 
   constructor(
     private _formBuilder: FormBuilder,
     private userService: UserService,
     private toast: NgToastService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private breakpointObserver: BreakpointObserver
   ) {
+
+    this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe((state) => {
+      this.isSmallScreen = state.matches;
+      this.isLargeScreen = !state.matches;
+    });
+
     this.passwordFormGroup = _formBuilder.group({
       password: [
         '',

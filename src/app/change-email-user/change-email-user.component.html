@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <h2 mat-dialog-title>Change email address</h2>
 
-  <mat-stepper linear #stepper>
+  <mat-stepper *ngIf="isLargeScreen" linear #stepper>
     <mat-step [stepControl]="passwordFormGroup" [editable]="false">
       <form [formGroup]="passwordFormGroup">
         <ng-template matStepLabel>Enter your account password</ng-template>
@@ -52,4 +52,59 @@
       </div>
     </mat-step>
   </mat-stepper>
+
+
+  <mat-vertical-stepper *ngIf="isSmallScreen" linear #stepper>
+    <mat-step [stepControl]="passwordFormGroup" [editable]="false">
+      <form [formGroup]="passwordFormGroup">
+        <ng-template matStepLabel>Enter your account password</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" />
+          <mat-error *ngIf="fbPasswordFormGroup.password.hasError('required')">Password is
+            <strong>required</strong></mat-error>
+          <mat-error *ngIf="fbPasswordFormGroup.password.hasError('passwordValid')">
+            Incorrect old password
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="emailFormGroup" [editable]="false">
+      <form [formGroup]="emailFormGroup">
+        <ng-template matStepLabel>Fill out your email</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+          <mat-error *ngIf="fbEmailFormGroup.email.hasError('required')">Email is
+            <strong>required</strong></mat-error>
+          <mat-error *ngIf="fbEmailFormGroup.email.hasError('email')">Please enter a valid email address
+          </mat-error>
+
+          <mat-error *ngIf="fbEmailFormGroup.email.hasError('emailExists')">
+            This email already exists
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button mat-dialog-close>Close</button>
+          <button mat-button matStepperNext (click)="changeEmail()">
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>{{ message }}</p>
+      <div>
+        <button mat-button mat-dialog-close routerLink="/user/profile-account">Close</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+
+
 </div>
