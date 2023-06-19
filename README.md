@@ -58,3 +58,16 @@ ng serve -o
 ## Demo 
 The project has been deployed to heroku. [Click here](https://mytodos.herokuapp.com/) to see the demo.
 
+## Account test
+**Admin:**
+```
+username: admin
+password: Admin@123
+
+```
+**User:**
+```
+username: user
+password: User@123
+
+```
