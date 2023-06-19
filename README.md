@@ -63,11 +63,9 @@ The project has been deployed to heroku. [Click here](https://mytodos.herokuapp.
 ```
 username: admin
 password: Admin@123
-
 ```
 **User:**
 ```
 username: user
 password: User@123
-
 ```
